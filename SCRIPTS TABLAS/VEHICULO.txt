@@ -1,0 +1,58 @@
+ALTER TABLE HYSOTELO.VEHICULO
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE HYSOTELO.VEHICULO CASCADE CONSTRAINTS;
+
+CREATE TABLE HYSOTELO.VEHICULO
+(
+  ID          NUMBER                            NOT NULL,
+  CLIENTE_ID  NUMBER                            NOT NULL,
+  MARCA       VARCHAR2(50 BYTE)                 NOT NULL,
+  MODELO      NUMBER                            NOT NULL,
+  PLACA       VARCHAR2(6 BYTE)                  NOT NULL,
+  COLOR       VARCHAR2(50 BYTE)                 NOT NULL,
+  ESTADO      VARCHAR2(1 BYTE)                  NOT NULL
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MAXSIZE          UNLIMITED
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+MONITORING;
+
+
+CREATE UNIQUE INDEX HYSOTELO.VEHICULO_PK ON HYSOTELO.VEHICULO
+(ID)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MAXSIZE          UNLIMITED
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           );
+
+ALTER TABLE HYSOTELO.VEHICULO ADD (
+  CONSTRAINT VEHICULO_PK
+  PRIMARY KEY
+  (ID)
+  USING INDEX HYSOTELO.VEHICULO_PK
+  ENABLE VALIDATE);

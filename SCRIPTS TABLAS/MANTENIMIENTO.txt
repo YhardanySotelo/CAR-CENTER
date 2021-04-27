@@ -1,0 +1,77 @@
+ALTER TABLE HYSOTELO.MANTENIMIENTO
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE HYSOTELO.MANTENIMIENTO CASCADE CONSTRAINTS;
+
+CREATE TABLE HYSOTELO.MANTENIMIENTO
+(
+  ID                   NUMBER                   NOT NULL,
+  CLIENTE_ID           NUMBER                   NOT NULL,
+  VEHICULO_ID          NUMBER                   NOT NULL,
+  DESCRIPCION          VARCHAR2(400 BYTE)       NOT NULL,
+  FECHA_SOLICITUD      DATE                     NOT NULL,
+  FOTO_VEHICULO        BLOB,
+  LIMITE_PRESUPUESTO   NUMBER                   NOT NULL,
+  SEDE_ID              NUMBER                   NOT NULL,
+  MECANICO_ID          NUMBER,
+  FECHA_MANTENIMIENTO  DATE,
+  ESTADO               VARCHAR2(51 BYTE)        NOT NULL
+)
+LOB (FOTO_VEHICULO) STORE AS BASICFILE (
+  TABLESPACE  USERS
+  ENABLE      STORAGE IN ROW
+  CHUNK       8192
+  RETENTION
+  NOCACHE
+  LOGGING
+      STORAGE    (
+                  INITIAL          64K
+                  NEXT             1M
+                  MINEXTENTS       1
+                  MAXEXTENTS       UNLIMITED
+                  PCTINCREASE      0
+                  BUFFER_POOL      DEFAULT
+                 ))
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MAXSIZE          UNLIMITED
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+MONITORING;
+
+
+CREATE UNIQUE INDEX HYSOTELO.MANTENIMIENTO_PK ON HYSOTELO.MANTENIMIENTO
+(ID)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MAXSIZE          UNLIMITED
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           );
+
+ALTER TABLE HYSOTELO.MANTENIMIENTO ADD (
+  CONSTRAINT MANTENIMIENTO_PK
+  PRIMARY KEY
+  (ID)
+  USING INDEX HYSOTELO.MANTENIMIENTO_PK
+  ENABLE VALIDATE);
